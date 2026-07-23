@@ -1,0 +1,109 @@
+# SwiftLint configuration for HandSwitch
+# Strict, HIG-quality Swift 6 code. Run: swiftlint --strict
+
+included:
+  - HandSwitch
+  - Tests
+
+excluded:
+  - HandSwitch/Resources
+  - Tools
+  - build
+  - DerivedData
+  - .build
+
+# Treat these as errors to enforce the "no force unwrap / no force cast" rule.
+opt_in_rules:
+  - array_init
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - empty_collection_literal
+  - empty_count
+  - empty_string
+  - explicit_init
+  - fatal_error_message
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - last_where
+  - legacy_random
+  - literal_expression_end_indentation
+  - modifier_order
+  - multiline_arguments
+  - multiline_parameters
+  - operator_usage_whitespace
+  - overridden_super_call
+  - prefer_self_type_over_type_of_self
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - sorted_first_last
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - yoda_condition
+
+disabled_rules:
+  - trailing_comma
+  - todo # There are intentionally no TODOs; keep the rule quiet regardless.
+
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+
+# These are compiler errors in this project, not just warnings.
+force_cast: error
+force_try: error
+force_unwrapping: error
+implicitly_unwrapped_optional: error
+
+line_length:
+  warning: 120
+  error: 160
+  ignores_comments: true
+  ignores_urls: true
+
+file_length:
+  warning: 500
+  error: 800
+
+type_body_length:
+  warning: 300
+  error: 450
+
+function_body_length:
+  warning: 60
+  error: 100
+
+cyclomatic_complexity:
+  warning: 12
+  error: 20
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  excluded:
+    - id
+    - x
+    - y
+    - r
+    - g
+    - b
+    - a
+    - dx
+    - dy
+
+type_name:
+  min_length: 3
+  max_length:
+    warning: 45
+    error: 60
+
+nesting:
+  type_level: 3
+
+reporter: "xcode"
