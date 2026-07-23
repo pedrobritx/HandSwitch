@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  HandSwitch runs outside the App Sandbox. Writing the global-domain
+	  preference `com.apple.mouse.swapLeftRightButtons` (current host) and
+	  installing a CGEventTap for the optional instant-apply mode both require
+	  an unsandboxed, Hardened-Runtime process. See Documentation/Permissions.md.
+	-->
+	<key>com.apple.security.app-sandbox</key>
+	<false/>
+	<key>com.apple.security.automation.apple-events</key>
+	<true/>
+</dict>
+</plist>
