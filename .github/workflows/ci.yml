@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: |
           set -o pipefail
-          xcodebuild \
+          if ! xcodebuild \
             -project HandSwitch.xcodeproj \
             -scheme HandSwitch \
             -configuration Debug \
@@ -44,12 +44,17 @@ jobs:
             -derivedDataPath build/DerivedData \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            build
+            build 2>&1 | tee /tmp/build.log; then
+              echo "::error::Build failed. Unique compiler diagnostics:"
+              grep -E '^/.*: (error|warning): ' /tmp/build.log \
+                | sed 's|.*/HandSwitch/HandSwitch/||' | sort -u | head -60
+              exit 1
+          fi
 
       - name: Test
         run: |
           set -o pipefail
-          xcodebuild \
+          if ! xcodebuild \
             -project HandSwitch.xcodeproj \
             -scheme HandSwitch \
             -configuration Debug \
@@ -57,4 +62,9 @@ jobs:
             -derivedDataPath build/DerivedData \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            test
+            test 2>&1 | tee /tmp/test.log; then
+              echo "::error::Tests failed. Diagnostics and failing cases:"
+              grep -E '^/.*: (error|warning): |failed|XCTAssert|Test Case .* failed' /tmp/test.log \
+                | sed 's|.*/HandSwitch/||' | sort -u | head -60
+              exit 1
+          fi

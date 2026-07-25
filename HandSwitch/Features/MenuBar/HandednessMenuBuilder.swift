@@ -10,6 +10,11 @@ import AppKit
 /// The actions a status-item menu can trigger. Implemented by
 /// ``StatusItemController``; declared as an `@objc` protocol so the builder can
 /// wire menu items to it with `#selector` without a tight type dependency.
+///
+/// Isolated to the main actor because menu actions are only ever delivered on
+/// the main thread. Without this the requirements would be nonisolated, and a
+/// `@MainActor` conformer could not satisfy them under Swift 6.
+@MainActor
 @objc protocol MenuActionHandling: AnyObject {
     func menuToggleHandedness()
     func menuSelectRightHanded()
