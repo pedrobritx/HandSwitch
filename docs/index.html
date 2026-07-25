@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HandSwitch — switch your mouse hand in one click</title>
+<meta name="description" content="A native macOS menu-bar utility that switches your mouse between right-handed and left-handed instantly. Built for RSI, tendinitis, and anyone who needs to alternate hands. Free and open source.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0a0e1a">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="HandSwitch — switch your mouse hand in one click">
+<meta property="og:description" content="A native macOS menu-bar utility that switches your mouse between right- and left-handed instantly. Free and open source.">
+<meta property="og:image" content="assets/icon.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__brand" href="#top">
+      <img src="assets/icon.png" alt="" width="28" height="28">
+      <span>HandSwitch</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#features" data-optional>Features</a>
+      <a href="#how" data-optional>How it works</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/pedrobritx/HandSwitch">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <img class="hero__icon" src="assets/icon.png" alt="The HandSwitch app icon: a white computer mouse on a blue gradient." width="116" height="116">
+      <h1>Switch your mouse hand<br>in one click.</h1>
+      <p class="hero__lede">
+        HandSwitch lives in your menu bar and flips the primary mouse button
+        between right- and left-handed instantly — so resting a sore hand takes
+        a second, not a trip through System Settings.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn-primary" href="https://github.com/pedrobritx/HandSwitch/releases/latest">
+          Download for macOS
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/pedrobritx/HandSwitch">
+          View source
+        </a>
+      </div>
+      <p class="hero__meta">Free &amp; open source · macOS 26+ · MIT</p>
+    </div>
+  </section>
+
+  <!-- ── The problem ───────────────────────────────────────────────────── -->
+  <section id="why">
+    <div class="wrap">
+      <div class="problem reveal">
+        <div>
+          <p class="eyebrow">Why it exists</p>
+          <h2 class="section-title">Your hand needs a break. macOS makes that a chore.</h2>
+          <p style="color: var(--ink-dim); max-width: 52ch;">
+            If you're managing RSI, tendinitis, cubital tunnel, tennis elbow, or
+            just a sprain, alternating hands is one of the simplest things you
+            can do. But macOS buries the setting five steps deep — and you need
+            it several times a day, usually at the exact moment your wrist is
+            already complaining.
+          </p>
+          <ul class="problem__steps">
+            <li><span class="n">01</span> Open System Settings</li>
+            <li><span class="n">02</span> Find Mouse</li>
+            <li><span class="n">03</span> Locate "Primary mouse button"</li>
+            <li><span class="n">04</span> Change the dropdown</li>
+            <li><span class="n">05</span> Close it all again</li>
+            <li><span class="n">→</span> With HandSwitch: one click.</li>
+          </ul>
+        </div>
+
+        <!-- Authentic macOS UI, deliberately not restyled as glass. -->
+        <figure>
+          <div class="mock">
+            <div class="mock__menubar">
+              <span class="mock__statusitem">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <rect x="7" y="2" width="10" height="20" rx="5"/>
+                </svg>
+                R
+              </span>
+              <span>100%</span>
+              <span>Fri 09:41</span>
+            </div>
+            <div class="mock__menu" role="img" aria-label="The HandSwitch menu bar menu, showing Current Mode: Right-handed, a Toggle Handedness item, mode options, the keyboard shortcut, Launch at Login, Settings, About and Quit.">
+              <div class="mock__row mock__row--muted">Current Mode: Right-handed</div>
+              <div class="mock__sep"></div>
+              <div class="mock__row mock__row--active">Toggle Handedness</div>
+              <div class="mock__sep"></div>
+              <div class="mock__row"><span class="check">✓</span>Right-handed</div>
+              <div class="mock__row">Left-handed</div>
+              <div class="mock__sep"></div>
+              <div class="mock__row">Keyboard Shortcut: ⌃⌥⌘M</div>
+              <div class="mock__row">Launch at Login</div>
+              <div class="mock__sep"></div>
+              <div class="mock__row">Settings…<span class="key">⌘,</span></div>
+              <div class="mock__row">About HandSwitch</div>
+              <div class="mock__sep"></div>
+              <div class="mock__row">Quit HandSwitch<span class="key">⌘Q</span></div>
+            </div>
+          </div>
+          <figcaption class="mock__caption">Left-click toggles · right-click opens the menu</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ──────────────────────────────────────────────────────── -->
+  <section id="features">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Features</p>
+        <h2 class="section-title">Small on purpose.</h2>
+        <p class="section-lede">
+          HandSwitch does one thing and gets out of the way. No account, no
+          telemetry, no background noise.
+        </p>
+      </div>
+
+      <div class="grid reveal">
+        <article class="card">
+          <div class="card__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><path d="M3 12h18"/></svg>
+          </div>
+          <h3>One click to switch</h3>
+          <p>Left-click the menu bar icon and the primary button swaps. The icon shows the live mode — R or L.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M8 14h8"/></svg>
+          </div>
+          <h3>A global shortcut</h3>
+          <p>Hit <code>⌃⌥⌘M</code> from any app. Prefer something else? Record your own in Settings.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4"/></svg>
+          </div>
+          <h3>Shortcuts &amp; Siri</h3>
+          <p>Four actions appear automatically in Shortcuts, Spotlight, and Siri. "Enable left-handed mode." Done.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          </div>
+          <h3>Quiet confirmation</h3>
+          <p>A native notification tells you which mode you're in, so you're never guessing. Turn it off anytime.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-4"/><circle cx="12" cy="14" r="4"/><path d="M5 5l3 3M19 5l-3 3"/></svg>
+          </div>
+          <h3>Starts with your Mac</h3>
+          <p>Launch at login through the modern system API — no helper apps, no login-item hacks.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          </div>
+          <h3>Accessible by design</h3>
+          <p>VoiceOver labels, full keyboard navigation, Dynamic Type, and Reduce Motion support throughout.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it works ──────────────────────────────────────────────────── -->
+  <section id="how">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">How it works</p>
+        <h2 class="section-title">It changes the real setting.</h2>
+        <p class="section-lede">
+          HandSwitch isn't a workaround layered on top of macOS. It writes the
+          same system preference that System Settings does — then reads it back
+          to confirm the change actually took.
+        </p>
+      </div>
+
+      <div class="grid reveal" style="margin-bottom: var(--sp-6);">
+        <article class="card">
+          <span class="tag">Default</span>
+          <h3 style="margin-top: var(--sp-3);">System setting</h3>
+          <p>Flips the real macOS "Primary mouse button" preference. Persists across restarts, needs no permissions, and stays in sync if you change it in System Settings.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Optional</span>
+          <h3 style="margin-top: var(--sp-3);">Instant</h3>
+          <p>Swaps buttons live for an immediate switch on every macOS version. Requires Accessibility permission, which HandSwitch asks for only if you turn this on.</p>
+        </article>
+      </div>
+
+      <figure class="reveal" style="max-width: 520px; margin-inline: auto;">
+        <div class="mock">
+          <div class="mock__window">
+            <div class="mock__titlebar">
+              <span class="mock__dot" style="background:#ff5f57"></span>
+              <span class="mock__dot" style="background:#febc2e"></span>
+              <span class="mock__dot" style="background:#28c840"></span>
+              <span class="mock__title">HandSwitch Settings</span>
+            </div>
+            <div class="mock__body">
+              <div class="mock__field">
+                <span>Mouse mode</span>
+                <span class="mock__segment"><span class="on">Right-handed</span><span>Left-handed</span></span>
+              </div>
+              <div class="mock__field">
+                <span>Toggle shortcut</span>
+                <span class="mock__kbd">⌃⌥⌘M</span>
+              </div>
+              <div class="mock__field">
+                <span>Launch at login</span>
+                <span class="mock__toggle"></span>
+              </div>
+              <div class="mock__field">
+                <span>Notify me when the mode changes</span>
+                <span class="mock__toggle"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mock__caption">Settings — everything fits on one screen</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── Install ───────────────────────────────────────────────────────── -->
+  <section id="install">
+    <div class="wrap wrap--narrow">
+      <div class="reveal">
+        <p class="eyebrow">Install</p>
+        <h2 class="section-title">Three steps.</h2>
+
+        <ol class="steps">
+          <li>
+            <div>
+              <strong>Download the DMG</strong>
+              <p>Grab the latest release and open it.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Drag HandSwitch to Applications</strong>
+              <p>The installer window shows you exactly where it goes.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Launch it</strong>
+              <p>There's no window — look for the 🖱 R / L icon in your menu bar.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout">
+          <h3>First launch will be blocked — that's expected</h3>
+          <p>
+            Current builds aren't signed with an Apple Developer ID, so macOS
+            stops them the first time. To open it: <strong>System Settings ›
+            Privacy &amp; Security</strong>, scroll to the message about
+            HandSwitch, and choose <strong>Open Anyway</strong>.
+          </p>
+          <p>
+            Prefer the terminal? <code>xattr -dr com.apple.quarantine /Applications/HandSwitch.app</code>
+          </p>
+        </div>
+
+        <p style="margin-top: var(--sp-6); text-align: center;">
+          <a class="btn btn-primary" href="https://github.com/pedrobritx/HandSwitch/releases/latest">
+            Download for macOS
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ───────────────────────────────────────────────────────────── -->
+  <section id="faq">
+    <div class="wrap wrap--narrow">
+      <div class="reveal">
+        <p class="eyebrow">Questions</p>
+        <h2 class="section-title">Good to know.</h2>
+
+        <div class="faq">
+          <details>
+            <summary>Does this actually change a macOS setting?</summary>
+            <p>
+              Yes. HandSwitch writes the same preference System Settings uses for
+              "Primary mouse button", then reads it back to verify it applied. If
+              macOS ever refuses, HandSwitch tells you plainly and offers to open
+              System Settings — it never fails silently.
+            </p>
+          </details>
+
+          <details>
+            <summary>Does it work with a trackpad?</summary>
+            <p>
+              HandSwitch changes the primary <em>mouse</em> button, which is a
+              separate setting from trackpad secondary click. If you use a
+              trackpad, its right-click behaviour is configured independently in
+              System Settings › Trackpad.
+            </p>
+          </details>
+
+          <details>
+            <summary>What permissions does it need?</summary>
+            <p>
+              None for the default mode. Accessibility permission is only
+              requested if you switch on <em>Instant</em> mode, which swaps
+              buttons live. Notifications are optional too.
+            </p>
+          </details>
+
+          <details>
+            <summary>Why does macOS say the app is damaged or blocked?</summary>
+            <p>
+              Because it isn't signed with a paid Apple Developer ID yet. The app
+              is fine — Gatekeeper simply can't verify an unsigned developer. Use
+              System Settings › Privacy &amp; Security → Open Anyway. One
+              side effect: because macOS ties Accessibility permission to an app's
+              signature, you may need to re-grant it for Instant mode after an
+              update.
+            </p>
+          </details>
+
+          <details>
+            <summary>Is it really free?</summary>
+            <p>
+              Yes — free, open source, and MIT licensed. No account, no
+              telemetry, no analytics. You can read every line on GitHub.
+            </p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <p>HandSwitch — an ergonomics utility for macOS. MIT licensed.</p>
+    <nav aria-label="Footer">
+      <a href="https://github.com/pedrobritx/HandSwitch">GitHub</a>
+      <a href="https://github.com/pedrobritx/HandSwitch/releases/latest">Releases</a>
+      <a href="https://github.com/pedrobritx/HandSwitch/blob/main/LICENSE">License</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Droplet-style reveal on scroll. Skipped entirely when the visitor prefers
+  // reduced motion — the CSS already shows everything in that case.
+  (function () {
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var items = document.querySelectorAll('.reveal');
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    items.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

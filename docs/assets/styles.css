@@ -1,0 +1,518 @@
+/* ==========================================================================
+   HandSwitch — landing page
+   Britx Design System · Living Cosmos Edition v1.0
+   Tokens are used verbatim from the system; nothing here reinterprets them.
+   ========================================================================== */
+
+:root {
+  /* Foundations */
+  --midnight:   #0a0e1a;
+  --midnight-2: #0f1526;
+  --midnight-3: #141d33;
+
+  /* Accents */
+  --nebula:      #3d4fd6;
+  --nebula-soft: #5b6de8;
+  --rain:        #4db8c8;
+  --rain-soft:   #6dcbda;
+
+  /* Nature */
+  --moss:      #4a8c5c;
+  --moss-soft: #5da870;
+  --sandstone: #c4a882;
+  --clay:      #9c6b4e;
+
+  /* Type */
+  --ink:       #e8eaf0;
+  --ink-dim:   #8a94b0;
+  --ink-ghost: #454e6a;
+
+  /* Glass surface */
+  --glass-bg:     rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur:   12px;
+
+  /* Type families */
+  --font-ui:   'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+
+  /* Motion */
+  --ease-organic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+
+  /* Spacing */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  /* Widths */
+  --width-content: 720px;
+  --width-wide: 1100px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--midnight);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  line-height: 1.65;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Atmospheric depth — a single soft nebula bloom behind the fold. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20% -20% auto -20%;
+  height: 70vh;
+  background:
+    radial-gradient(60% 55% at 50% 0%, rgba(91, 109, 232, 0.20), transparent 70%),
+    radial-gradient(40% 40% at 80% 20%, rgba(77, 184, 200, 0.09), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Base elements ───────────────────────────────────────────────────────── */
+
+a { color: var(--rain); text-decoration: none; transition: color var(--dur-fast); }
+a:hover { color: var(--rain-soft); }
+
+:focus-visible {
+  outline: 2px solid var(--rain);
+  outline-offset: 3px;
+  border-radius: var(--sp-1);
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3 { line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--sp-3);
+  background: var(--nebula);
+  color: var(--ink);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: 8px;
+  z-index: 100;
+}
+.skip-link:focus { left: var(--sp-4); }
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+
+.wrap {
+  width: 100%;
+  max-width: var(--width-wide);
+  margin-inline: auto;
+  padding-inline: var(--sp-5);
+  position: relative;
+  z-index: 1;
+}
+.wrap--narrow { max-width: var(--width-content); }
+
+section { padding-block: var(--sp-8); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rain);
+  margin-bottom: var(--sp-3);
+}
+
+.section-title { font-size: clamp(1.6rem, 3.4vw, 2.2rem); margin-bottom: var(--sp-3); }
+
+.section-lede {
+  color: var(--ink-dim);
+  font-size: 1.05rem;
+  max-width: 60ch;
+  margin-bottom: var(--sp-7);
+}
+
+/* ── Nav ─────────────────────────────────────────────────────────────────── */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 14, 26, 0.72);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border);
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  padding-block: var(--sp-3);
+}
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--ink);
+  font-weight: 500;
+}
+.nav__brand img { width: 28px; height: 28px; border-radius: 7px; }
+.nav__links { margin-left: auto; display: flex; align-items: center; gap: var(--sp-5); }
+.nav__links a { color: var(--ink-dim); font-size: 0.9rem; }
+.nav__links a:hover { color: var(--ink); }
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  border: none;
+  border-radius: 999px;
+  padding: var(--sp-3) var(--sp-6);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--dur-fast), transform var(--dur-fast) var(--ease-spring),
+              border-color var(--dur-fast);
+}
+.btn-primary { background: var(--nebula); color: var(--ink); }
+.btn-primary:hover { background: var(--nebula-soft); color: var(--ink); transform: scale(1.02); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--glass-border);
+}
+.btn-ghost:hover { border-color: var(--rain); color: var(--ink); transform: scale(1.02); }
+
+/* ── Tags ────────────────────────────────────────────────────────────────── */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  background: rgba(77, 184, 200, 0.1);
+  color: var(--rain);
+  border: 1px solid rgba(77, 184, 200, 0.2);
+  border-radius: 999px;
+  padding: 2px var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* ── Hero ────────────────────────────────────────────────────────────────── */
+
+.hero { padding-top: var(--sp-8); padding-bottom: var(--sp-8); text-align: center; }
+.hero__icon {
+  width: 116px;
+  height: 116px;
+  margin: 0 auto var(--sp-5);
+  border-radius: 26px;
+  filter: drop-shadow(0 18px 44px rgba(61, 79, 214, 0.42));
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 600;
+  margin-bottom: var(--sp-4);
+}
+.hero__lede {
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  color: var(--ink-dim);
+  max-width: 56ch;
+  margin: 0 auto var(--sp-6);
+}
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  justify-content: center;
+  margin-bottom: var(--sp-4);
+}
+.hero__meta { color: var(--ink-dim); font-family: var(--font-mono); font-size: 0.78rem; }
+
+/* ── Glass cards ─────────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: var(--sp-5) var(--sp-6);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: transform var(--dur-base) var(--ease-organic),
+              box-shadow var(--dur-base) var(--ease-organic),
+              border-color var(--dur-base) var(--ease-organic);
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(10, 14, 26, 0.4);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.card h3 { font-size: 1.05rem; margin-bottom: var(--sp-2); }
+.card p { color: var(--ink-dim); font-size: 0.94rem; }
+.card__glyph {
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: rgba(91, 109, 232, 0.14);
+  border: 1px solid rgba(91, 109, 232, 0.22);
+  margin-bottom: var(--sp-4);
+  color: var(--nebula-soft);
+}
+.card__glyph svg { width: 19px; height: 19px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--sp-4);
+}
+
+/* ── Problem section ─────────────────────────────────────────────────────── */
+
+.problem { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--sp-8); align-items: center; }
+.problem__steps { list-style: none; display: grid; gap: var(--sp-2); margin-top: var(--sp-5); }
+.problem__steps li {
+  display: flex; align-items: center; gap: var(--sp-3);
+  color: var(--ink-dim); font-size: 0.92rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.problem__steps .n {
+  font-family: var(--font-mono); font-size: 0.72rem;
+  color: var(--ink-dim); min-width: 1.4em;
+}
+.problem__steps li:last-child { color: var(--rain); background: rgba(77, 184, 200, 0.07); }
+
+/* ── macOS mockups ───────────────────────────────────────────────────────────
+   Deliberate, bounded deviation from Living Cosmos: these depict a real
+   Apple-native app, so they render as authentic macOS UI (system font, macOS
+   dark-menu materials) rather than glass. The page frames them; it doesn't
+   restyle them.
+   -------------------------------------------------------------------------- */
+
+.mock {
+  --mac-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-family: var(--mac-font);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  background: var(--midnight-3);
+}
+
+.mock__menubar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-4);
+  height: 26px;
+  padding-inline: var(--sp-3);
+  background: rgba(30, 33, 46, 0.96);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.86);
+}
+.mock__statusitem {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 1px 6px; border-radius: 5px;
+  background: rgba(255, 255, 255, 0.16);
+  font-weight: 600;
+}
+.mock__statusitem svg { width: 12px; height: 12px; }
+
+.mock__menu {
+  margin: var(--sp-3) var(--sp-3) var(--sp-4) auto;
+  width: 248px;
+  background: rgba(46, 48, 58, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 8px;
+  padding: var(--sp-1) 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+.mock__row {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: 3px var(--sp-3) 3px 22px;
+  position: relative;
+  white-space: nowrap;
+}
+.mock__row--muted { color: rgba(255, 255, 255, 0.4); }
+.mock__row--active { background: var(--nebula); border-radius: 4px; margin-inline: var(--sp-1); }
+.mock__row .check { position: absolute; left: 8px; }
+.mock__row .key { margin-left: auto; color: rgba(255, 255, 255, 0.45); font-size: 0.75rem; }
+.mock__sep { height: 1px; background: rgba(255, 255, 255, 0.12); margin: var(--sp-1) var(--sp-2); }
+
+.mock__window { background: #1e1f26; }
+.mock__titlebar {
+  display: flex; align-items: center; gap: 6px;
+  padding: var(--sp-3);
+  background: rgba(58, 60, 70, 0.9);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+}
+.mock__dot { width: 11px; height: 11px; border-radius: 999px; }
+.mock__title {
+  margin-left: auto; margin-right: auto;
+  font-size: 0.76rem; font-weight: 600; color: rgba(255, 255, 255, 0.75);
+  transform: translateX(-16px);
+}
+.mock__body { padding: var(--sp-5); display: grid; gap: var(--sp-4); }
+.mock__field {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-4);
+  font-size: 0.8rem; color: rgba(255, 255, 255, 0.9);
+}
+.mock__segment {
+  display: inline-flex; background: rgba(255, 255, 255, 0.09);
+  border-radius: 7px; padding: 2px; font-size: 0.74rem;
+}
+.mock__segment span { padding: 3px 12px; border-radius: 5px; color: rgba(255, 255, 255, 0.7); }
+.mock__segment .on { background: rgba(255, 255, 255, 0.22); color: #fff; }
+.mock__toggle {
+  width: 34px; height: 20px; border-radius: 999px;
+  background: var(--moss); position: relative;
+}
+.mock__toggle::after {
+  content: ""; position: absolute; top: 2px; right: 2px;
+  width: 16px; height: 16px; border-radius: 999px; background: #fff;
+}
+.mock__kbd {
+  font-family: var(--font-mono); font-size: 0.74rem;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px; padding: 2px 8px;
+  color: rgba(255, 255, 255, 0.88);
+}
+/* --ink-ghost is reserved for placeholder/disabled states only; it sits at
+   2.3:1 on --midnight, so informative text uses --ink-dim (6.4:1). */
+.mock__caption {
+  margin-top: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-dim);
+  text-align: center;
+}
+
+/* ── Steps (install) ─────────────────────────────────────────────────────── */
+
+.steps { list-style: none; counter-reset: step; display: grid; gap: var(--sp-4); }
+.steps li {
+  counter-increment: step;
+  display: grid; grid-template-columns: 34px 1fr; gap: var(--sp-4);
+  align-items: start;
+}
+.steps li::before {
+  content: counter(step);
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 999px;
+  background: rgba(91, 109, 232, 0.16);
+  border: 1px solid rgba(91, 109, 232, 0.26);
+  color: var(--nebula-soft);
+  font-family: var(--font-mono); font-size: 0.82rem;
+}
+.steps strong { display: block; margin-bottom: 2px; font-weight: 500; }
+.steps p { color: var(--ink-dim); font-size: 0.94rem; }
+
+.callout {
+  border-left: 2px solid var(--sandstone);
+  background: rgba(196, 168, 130, 0.07);
+  border-radius: 0 12px 12px 0;
+  padding: var(--sp-4) var(--sp-5);
+  margin-top: var(--sp-6);
+}
+.callout h3 { font-size: 0.98rem; margin-bottom: var(--sp-2); color: var(--sandstone); }
+.callout p { color: var(--ink-dim); font-size: 0.92rem; }
+.callout p + p { margin-top: var(--sp-2); }
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 1px 6px;
+  color: var(--ink);
+}
+
+/* ── FAQ ─────────────────────────────────────────────────────────────────── */
+
+.faq { display: grid; gap: var(--sp-3); }
+.faq details {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: var(--sp-4) var(--sp-5);
+  transition: border-color var(--dur-base) var(--ease-organic);
+}
+.faq details[open] { border-color: rgba(255, 255, 255, 0.14); }
+.faq summary {
+  cursor: pointer;
+  font-weight: 500;
+  list-style: none;
+  display: flex; align-items: center; gap: var(--sp-3);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before {
+  content: "+";
+  font-family: var(--font-mono);
+  color: var(--rain);
+  transition: transform var(--dur-base) var(--ease-organic);
+}
+.faq details[open] summary::before { content: "−"; }
+.faq p { color: var(--ink-dim); font-size: 0.94rem; margin-top: var(--sp-3); }
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+
+.footer {
+  border-top: 1px solid var(--glass-border);
+  padding-block: var(--sp-7);
+  margin-top: var(--sp-8);
+}
+.footer__inner {
+  display: flex; flex-wrap: wrap; gap: var(--sp-4);
+  align-items: center; justify-content: space-between;
+}
+.footer p { color: var(--ink-dim); font-size: 0.86rem; }
+.footer nav { display: flex; gap: var(--sp-5); font-size: 0.86rem; }
+
+/* ── Motion: droplet reveal ──────────────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: scale(0.96) translateY(10px);
+  transition: opacity var(--dur-slow) var(--ease-organic),
+              transform var(--dur-slow) var(--ease-spring);
+}
+.reveal.is-visible { opacity: 1; transform: scale(1) translateY(0); }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .problem { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .nav__links a[data-optional] { display: none; }
+  section { padding-block: var(--sp-7); }
+}
+
+/* ── Reduced motion (system requirement) ─────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
