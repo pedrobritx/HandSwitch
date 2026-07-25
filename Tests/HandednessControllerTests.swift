@@ -10,6 +10,11 @@ import Testing
 @MainActor
 @Suite("HandednessController")
 struct HandednessControllerTests {
+    /// Explicitly main-actor isolated: `@MainActor` on the enclosing suite
+    /// applies to its members, not to nested types, and everything this
+    /// harness builds (the mocks, the store, the controller) is main-actor
+    /// isolated.
+    @MainActor
     private struct Harness {
         let system = MockMechanism()
         let instant = MockMechanism()
