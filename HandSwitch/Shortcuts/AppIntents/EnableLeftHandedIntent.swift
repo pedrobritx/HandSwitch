@@ -7,11 +7,11 @@ import AppIntents
 
 /// Turns on left-handed mouse mode.
 struct EnableLeftHandedIntent: AppIntent {
-    static var title: LocalizedStringResource = "Enable Left-Handed Mode"
-    static var description = IntentDescription(
+    static let title: LocalizedStringResource = "Enable Left-Handed Mode"
+    static let description = IntentDescription(
         "Makes the right mouse button the primary click."
     )
-    static var openAppWhenRun = false
+    static let openAppWhenRun = false
 
     @MainActor
     func perform() async throws -> some IntentResult & ReturnsValue<HandednessAppEnum> & ProvidesDialog {

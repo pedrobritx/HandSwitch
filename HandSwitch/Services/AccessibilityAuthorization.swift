@@ -81,8 +81,4 @@ final class AccessibilityAuthorization: AccessibilityAuthorizing {
         monitorTask?.cancel()
         monitorTask = nil
     }
-
-    deinit {
-        monitorTask?.cancel()
-    }
 }
