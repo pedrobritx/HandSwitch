@@ -3,6 +3,7 @@
 //  HandSwitchTests
 //
 
+import Foundation
 import Testing
 @testable import HandSwitch
 

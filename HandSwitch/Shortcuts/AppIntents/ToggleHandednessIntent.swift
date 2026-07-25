@@ -7,11 +7,11 @@ import AppIntents
 
 /// Switches the mouse between right-handed and left-handed mode.
 struct ToggleHandednessIntent: AppIntent {
-    static var title: LocalizedStringResource = "Toggle HandSwitch"
-    static var description = IntentDescription(
+    static let title: LocalizedStringResource = "Toggle HandSwitch"
+    static let description = IntentDescription(
         "Switches the mouse between right-handed and left-handed mode."
     )
-    static var openAppWhenRun = false
+    static let openAppWhenRun = false
 
     @MainActor
     func perform() async throws -> some IntentResult & ReturnsValue<HandednessAppEnum> & ProvidesDialog {

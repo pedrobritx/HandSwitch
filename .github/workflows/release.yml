@@ -1,0 +1,116 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version for the DMG filename (e.g. 1.0.0)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build DMG & Publish Release
+    runs-on: macos-26
+    timeout-minutes: 45
+
+    # Secrets can't be referenced directly in step-level `if:`, so surface their
+    # presence as plain booleans here. With none configured the build is simply
+    # ad-hoc signed.
+    env:
+      HAS_SIGNING_CERT: ${{ secrets.MACOS_CERTIFICATE_P12 != '' }}
+      HAS_NOTARY_CREDS: ${{ secrets.NOTARY_APPLE_ID != '' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        run: |
+          latest="$(ls -d /Applications/Xcode_26* 2>/dev/null | sort -V | tail -1 || true)"
+          if [ -n "$latest" ]; then
+            sudo xcode-select -s "$latest/Contents/Developer"
+          fi
+          xcodebuild -version
+
+      - name: Install create-dmg
+        run: brew install create-dmg
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            version="${{ github.event.inputs.version }}"
+          elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            version="${GITHUB_REF_NAME#v}"
+          else
+            version=""
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "Resolved version: ${version:-<project default>}"
+
+      # Signing is optional. With no secrets configured the build is ad-hoc
+      # signed (Gatekeeper will warn); adding a Developer ID certificate and
+      # notarytool credentials later turns on real signing with no other change.
+      - name: Import signing certificate
+        if: env.HAS_SIGNING_CERT == 'true'
+        env:
+          CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
+        run: |
+          echo "$CERTIFICATE_P12" | base64 --decode > /tmp/certificate.p12
+          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security import /tmp/certificate.p12 -k build.keychain \
+            -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: \
+            -s -k "$KEYCHAIN_PASSWORD" build.keychain
+          rm -f /tmp/certificate.p12
+
+      - name: Store notarization credentials
+        if: env.HAS_NOTARY_CREDS == 'true'
+        run: |
+          xcrun notarytool store-credentials handswitch-notary \
+            --apple-id "${{ secrets.NOTARY_APPLE_ID }}" \
+            --team-id "${{ secrets.NOTARY_TEAM_ID }}" \
+            --password "${{ secrets.NOTARY_PASSWORD }}"
+
+      - name: Build DMG
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          SIGN_IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+          NOTARY_PROFILE: ${{ secrets.NOTARY_APPLE_ID != '' && 'handswitch-notary' || '' }}
+        run: ./Scripts/build-dmg.sh
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HandSwitch-dmg
+          path: dist/*.dmg
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: ${{ github.ref_type == 'tag' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.dmg
+          generate_release_notes: true
+          draft: false
+          body: |
+            ## Install
+
+            1. Download the `.dmg` below and open it.
+            2. Drag **HandSwitch** into your **Applications** folder.
+            3. Launch it. HandSwitch lives in the menu bar — look for the 🖱 R / L icon.
+
+            > **First launch:** this build is not signed with an Apple Developer ID,
+            > so macOS will block it initially. Open **System Settings › Privacy &
+            > Security**, scroll to the "HandSwitch was blocked" notice, and choose
+            > **Open Anyway**. See the README for details.

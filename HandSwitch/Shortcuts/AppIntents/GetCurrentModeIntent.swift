@@ -7,11 +7,11 @@ import AppIntents
 
 /// Reports the current mouse mode without changing it.
 struct GetCurrentModeIntent: AppIntent {
-    static var title: LocalizedStringResource = "Get Current Mode"
-    static var description = IntentDescription(
+    static let title: LocalizedStringResource = "Get Current Mode"
+    static let description = IntentDescription(
         "Returns whether the mouse is in right-handed or left-handed mode."
     )
-    static var openAppWhenRun = false
+    static let openAppWhenRun = false
 
     @MainActor
     func perform() async throws -> some IntentResult & ReturnsValue<HandednessAppEnum> & ProvidesDialog {

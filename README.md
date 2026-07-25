@@ -10,6 +10,14 @@ or a temporary injury. macOS already lets you swap the primary mouse button, but
 the setting is buried deep in System Settings. HandSwitch turns it into one
 click, one shortcut, one Siri command.
 
+[**Download**](https://github.com/pedrobritx/HandSwitch/releases/latest) ·
+[**Website**](https://pedrobritx.github.io/HandSwitch/) ·
+[**Documentation**](Documentation/)
+
+![macOS 26+](https://img.shields.io/badge/macOS-26%2B-0A84FF?style=flat-square)
+![Swift 6](https://img.shields.io/badge/Swift-6-5E5CE6?style=flat-square)
+![License: MIT](https://img.shields.io/badge/License-MIT-4db8c8?style=flat-square)
+
 </div>
 
 ---
@@ -60,21 +68,80 @@ every macOS version.
 
 ### Requirements
 
-- **macOS 27 or later**
-- **Xcode 27 or later** (Swift 6)
+- **macOS 26 or later**
+- **Xcode 26 or later** (Swift 6) — only if you're building from source
 
-### Build & run
+### Download (recommended)
 
-The committed `HandSwitch.xcodeproj` opens and runs directly:
+1. Grab the latest `HandSwitch-x.y.z.dmg` from the
+   [**Releases**](https://github.com/pedrobritx/HandSwitch/releases/latest) page.
+2. Open the DMG and **drag HandSwitch into your Applications folder**.
+3. Launch it. HandSwitch has no window — look for the 🖱 **R** / **L** icon in
+   your menu bar.
+
+#### First launch: "HandSwitch is damaged" / "cannot be opened"
+
+Current builds are **not signed with an Apple Developer ID**, so macOS blocks
+them on first launch. This is Gatekeeper doing its job, not a broken download.
+
+To open it:
+
+> **System Settings › Privacy & Security** → scroll down to the message about
+> HandSwitch being blocked → click **Open Anyway** → confirm.
+
+macOS 15 removed the old Control-click → Open shortcut for unsigned apps, so the
+System Settings route above is the reliable one. If you'd rather use the
+terminal, this does the same thing in one line:
 
 ```bash
-git clone https://github.com/pedrobritx/handswitch.git
-cd handswitch
+xattr -dr com.apple.quarantine /Applications/HandSwitch.app
+```
+
+#### Known limitation of unsigned builds
+
+macOS ties the **Accessibility** permission to an app's code signature. Unsigned
+builds get a new signature every time they're rebuilt, so after installing an
+update you may need to **re-grant Accessibility permission** for *Instant* mode —
+sometimes by removing HandSwitch from the list in **System Settings › Privacy &
+Security › Accessibility** and adding it back.
+
+The default **System setting** mode is unaffected. Both issues disappear once the
+app is signed and notarized with an Apple Developer ID.
+
+### Build from source
+
+```bash
+git clone https://github.com/pedrobritx/HandSwitch.git
+cd HandSwitch
 open HandSwitch.xcodeproj      # then press ⌘R
 ```
 
-On first run Xcode may ask you to select a Development Team for signing
-(Signing & Capabilities → Team).
+Xcode may ask you to select a Development Team (Signing & Capabilities → Team).
+
+### Building a DMG yourself
+
+```bash
+brew install create-dmg        # optional, but gives the styled install window
+./Scripts/build-dmg.sh         # → dist/HandSwitch-1.0.dmg
+```
+
+To produce a signed, notarized DMG, set your identity and a stored
+`notarytool` profile — the script handles the rest:
+
+```bash
+SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" \
+NOTARY_PROFILE="handswitch-notary" \
+./Scripts/build-dmg.sh
+```
+
+### Cutting a release
+
+Pushing a `v*` tag builds the DMG on a macOS runner and publishes a GitHub
+Release with it attached:
+
+```bash
+git tag v1.0.0 && git push origin v1.0.0
+```
 
 ### Regenerating the project (optional)
 
@@ -86,11 +153,12 @@ brew install xcodegen
 xcodegen generate
 ```
 
-### Regenerating the app icon (optional)
+### Regenerating artwork (optional)
 
 ```bash
 pip install Pillow
-python3 Tools/generate_appicon.py
+python3 Tools/generate_appicon.py         # app icon → Assets.xcassets
+python3 Tools/generate_dmg_background.py  # DMG installer backdrop → Resources/dmg
 ```
 
 ## Permissions

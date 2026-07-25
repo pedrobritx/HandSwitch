@@ -30,23 +30,27 @@ enum MenuBarIconRenderer {
         let width = mouseSize.width + spacing + badgeSize.width
         let height = max(mouseSize.height, badgeSize.height)
 
-        let image = NSImage(size: NSSize(width: width, height: height), flipped: false) { _ in
-            mouse?.draw(in: NSRect(
-                x: 0,
-                y: (height - mouseSize.height) / 2,
-                width: mouseSize.width,
-                height: mouseSize.height
-            ))
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: badgeFont,
-                .foregroundColor: NSColor.black
-            ]
-            badge.draw(
-                at: NSPoint(x: mouseSize.width + spacing, y: (height - badgeSize.height) / 2),
-                withAttributes: attributes
-            )
-            return true
-        }
+        // Drawn with an explicit focus lock rather than the closure-based
+        // `NSImage(size:flipped:drawingHandler:)`: that handler is `@Sendable`,
+        // and the AppKit values used here (NSImage, NSFont) are not, so the
+        // closure form does not type-check under strict concurrency.
+        let image = NSImage(size: NSSize(width: width, height: height))
+        image.lockFocus()
+        mouse?.draw(in: NSRect(
+            x: 0,
+            y: (height - mouseSize.height) / 2,
+            width: mouseSize.width,
+            height: mouseSize.height
+        ))
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: badgeFont,
+            .foregroundColor: NSColor.black
+        ]
+        badge.draw(
+            at: NSPoint(x: mouseSize.width + spacing, y: (height - badgeSize.height) / 2),
+            withAttributes: attributes
+        )
+        image.unlockFocus()
         image.isTemplate = true
         return image
     }
